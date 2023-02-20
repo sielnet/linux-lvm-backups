@@ -2,9 +2,6 @@
 
 ### DEFINE THESE VARIABLES:
 
-# Text file with password used for backups (it should be owned by root and have permissions set with chmod 600).
-BACKUP_SECRET=$(cat /usr/local/etc/backup_secret.txt)
-
 # Volume group. Run "sudo lvs" to check if not sure.
 VG="vgbox" 
 
@@ -40,8 +37,8 @@ Partition size (approximate): ${LV_SIZE}g\n"
 lvcreate -s -n snap-${LV} -L ${SNAP_SIZE}g ${VG}/${LV}
 
 printf "${INFO} Writing image... ${NC}\n"
-printf "Output file: ${OUTPUT_FOLDER}snap-${LV}-${LV_SIZE}g-encrypted-"`date +"%d-%m-%Y"`".img.gz\n"
-dd if=/dev/${VG}/snap-${LV} | pv -s ${LV_SIZE}G | pigz | openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 1000 -salt -pass pass:${BACKUP_SECRET} -out ${OUTPUT_FOLDER}/snap-${LV}-${LV_SIZE}g-encrypted-"`date +"%d-%m-%Y"`".img.gz
+printf "Output file: ${OUTPUT_FOLDER}snap-${LV}-${LV_SIZE}g-"`date +"%d-%m-%Y"`".img.gz\n"
+dd if=/dev/${VG}/snap-${LV} | pv -s ${LV_SIZE}G | pigz -out ${OUTPUT_FOLDER}/snap-${LV}-${LV_SIZE}g-"`date +"%d-%m-%Y"`".img.gz
 
 printf "${INFO} Removing snapshot... ${NC}\n"
 lvremove --force ${VG}/snap-${LV}
