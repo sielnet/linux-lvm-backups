@@ -38,7 +38,7 @@ lvcreate -s -n snap-${LV} -L ${SNAP_SIZE}g ${VG}/${LV}
 
 printf "${INFO} Writing image... ${NC}\n"
 printf "Output file: ${OUTPUT_FOLDER}snap-${LV}-${LV_SIZE}g-"`date +"%d-%m-%Y"`".img.gz\n"
-dd if=/dev/${VG}/snap-${LV} | pv -s ${LV_SIZE}G | pigz -out ${OUTPUT_FOLDER}/snap-${LV}-${LV_SIZE}g-"`date +"%d-%m-%Y"`".img.gz
+dd if=/dev/${VG}/snap-${LV} | pv -s ${LV_SIZE}G | pigz > ${OUTPUT_FOLDER}/snap-${LV}-${LV_SIZE}g-"`date +"%d-%m-%Y"`".img.gz
 
 printf "${INFO} Removing snapshot... ${NC}\n"
 lvremove --force ${VG}/snap-${LV}
