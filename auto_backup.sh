@@ -19,7 +19,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Bash only handles integers without decimal points, so here's a workaround. We'll check the size of LV, then truncate everything after the decimal point.
-declare -i LV_SIZE=$(lvs $VG/$LV | awk 'FNR==2 {print $4}' | cut -d, -f1 )
+declare -i LV_SIZE=$(lvs $VG/$LV | awk 'FNR==2 {print $4}' | cut -d, -f1 | tr -cd [:digit:])
 # Now we'll calculate the size for the snapshot (5% fo the partition size).
 SNAP_SIZE=$((LV_SIZE*5/100))
 
