@@ -12,7 +12,7 @@
 ### Requirements:
 * Disk partitions must be provisioned using LVM
 * Volume group (VG) must have enough unallocated free space for the snapshot. Script will attempt to use around 5% of the partition size. If the logical volume (LV) being backed up is 60GB in size, then 3GB of free space is needed for the snapshot. As best practice, the backups should be taken during periods of low activity on the system in order to ensure that changes made to the file system during backup process can't outgrow snapshot size and therefore render it (and the backup image) unusable.
-* Required software: `pigz`, `openssl`, `pv`
+* Required software: `pigz`, `pv`
 
 ### Setup:
 0. Become root / su:
@@ -21,7 +21,7 @@ sudo -i
 ```
 1. Ensure required software is installed:
 ```
-apt install pigz openssl pv
+apt install pigz pv
 ```
 2. Download the script to /usr/local/bin on your system:
 ```
